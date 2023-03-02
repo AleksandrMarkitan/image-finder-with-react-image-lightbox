@@ -8,7 +8,6 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { Loader } from './Loader/Loader';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { ButtonLoader } from './Button/Button';
-import { Modal } from './Modal/Modal';
 import { Notification } from './Notification/Notification';
 
 export const App = () => {
@@ -19,7 +18,6 @@ export const App = () => {
   const [error, setError] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [imageInModal, setImageInModal] = useState(null);
   const [imagesQuantity, setImagesQuantity] = useState(null);
 
   useEffect(() => {
@@ -64,15 +62,6 @@ export const App = () => {
     setPage(prevState => prevState + 1);
   };
 
-  const openModal = e => {
-    const imageInModal = e.target.dataset.url;
-    setImageInModal(imageInModal);
-  };
-
-  const closeModal = () => {
-    setImageInModal(null);
-  };
-
   return (
     <>
       <ToastContainer position="top-center" autoClose={2000} />
@@ -82,11 +71,10 @@ export const App = () => {
       {notFound && !error && (
         <Notification msg={'Nothing found for your request'} />
       )}
-      {<ImageGallery images={images} openModal={openModal} />}
+      {<ImageGallery images={images} />}
       {page < imagesQuantity / imagesPerPage && !isLoading && !error && (
         <ButtonLoader nextPageHandler={nextPageHandler} />
       )}
-      {imageInModal && <Modal url={imageInModal} closeModal={closeModal} />}
     </>
   );
 };
